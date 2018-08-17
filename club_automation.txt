@@ -1,0 +1,1202 @@
+﻿package com.example.rahul.ClubAutomation;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.rahul.ClubAutomation.MainActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView doorlock;
+
+    TextView tubelight1;
+    TextView tubelight2;
+    TextView tubelight3;
+
+    TextView fan1;
+    TextView fan2;
+
+    TextView txt;
+
+    Button bt1;
+    Button bt2;
+    Button bt3;
+    Button bt4;
+    Button bt5;
+    Button bt6;
+    Button bt7;
+    Button logOut;
+
+    String url ="http://13.58.188.112:3000/app/get_all";
+    String url1 ="http://13.58.188.112:3000/app/update?name=doorlock&state=1";
+    String url2 ="http://13.58.188.112:3000/app/update?name=tubelight1&state=1";
+    String url3 ="http://13.58.188.112:3000/app/update?name=tubelight2&state=1";
+    String url4 ="http://13.58.188.112:3000/app/update?name=tubelight3&state=1";
+    String url5 ="http://13.58.188.112:3000/app/update?name=fan1&state=1";
+    String url6 ="http://13.58.188.112:3000/app/update?name=fan2&state=1";
+    String res="";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        doorlock=(TextView)findViewById(R.id.doorlock);
+
+        tubelight1=(TextView)findViewById(R.id.tubelight1);
+        tubelight2=(TextView)findViewById(R.id.tubelight2);
+        tubelight3=(TextView)findViewById(R.id.tubelight3);
+
+        fan1=(TextView)findViewById(R.id.fan1);
+        fan2=(TextView)findViewById(R.id.fan2);
+
+        txt=(TextView)findViewById(R.id.txt);
+
+        bt1=(Button)findViewById(R.id.bt1);
+        bt2=(Button)findViewById(R.id.bt2);
+        bt3=(Button)findViewById(R.id.bt3);
+        bt4=(Button)findViewById(R.id.bt4);
+        bt5=(Button)findViewById(R.id.bt5);
+        bt6=(Button)findViewById(R.id.bt6);
+        bt7=(Button)findViewById(R.id.bt7);
+        logOut=(Button)findViewById(R.id.logOut);
+
+        final RequestQueue queue = Volley.newRequestQueue(this);
+        final String res1="\"doorlock\",\"status\":1";
+        final String res2="\"tubelight1\",\"status\":1";
+        final String res3="\"tubelight2\",\"status\":1";
+        final String res4="\"tubelight3\",\"status\":1";
+        final String res5="\"fan1\",\"status\":1";
+        final String res6="\"fan2\",\"status\":1";
+
+
+// Request a string response from the provided URL.
+        bt7.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                // Display the first 500 characters of the response string.
+                                res=response;
+                                if(res.contains(res1))
+                                {
+                                    bt1.setText("On");
+                                }
+                                else
+                                {
+                                    bt1.setText("Off");
+                                }
+                                if(res.contains(res2))
+                                {
+                                    bt2.setText("On");
+                                }
+                                else
+                                {
+                                    bt2.setText("Off");
+                                }
+                                if(res.contains(res3))
+                                {
+                                    bt3.setText("On");
+                                }
+                                else
+                                {
+                                    bt3.setText("Off");
+                                }
+                                if(res.contains(res4))
+                                {
+                                    bt4.setText("On");
+                                }
+                                else
+                                {
+                                    bt4.setText("Off");
+                                }
+                                if(res.contains(res5))
+                                {
+                                    bt5.setText("On");
+                                }
+                                else
+                                {
+                                    bt5.setText("Off");
+                                }
+                                if(res.contains(res6))
+                                {
+                                    bt6.setText("On");
+                                }
+                                else
+                                {
+                                    bt6.setText("Off");
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        res="That didn't work";
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue.add(stringRequest);    }
+            });
+
+        final RequestQueue queue1 = Volley.newRequestQueue(this);
+
+        bt1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(bt1.getText().equals("On"))
+                {
+                    url1 ="http://13.58.188.112:3000/app/update?name=doorlock&state=0";
+                }
+                else
+                {
+                    url1 ="http://13.58.188.112:3000/app/update?name=doorlock&state=1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url1,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains(res1))
+                                {
+                                    bt1.setText("On");
+                                }
+                                else
+                                {
+                                    bt1.setText("Off");
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        txt.setText("Server Problem!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue1.add(stringRequest);    }
+        });
+        bt2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(bt2.getText().equals("On"))
+                {
+                    url2 ="http://13.58.188.112:3000/app/update?name=tubelight1&state=0";
+                }
+                else
+                {
+                    url2 ="http://13.58.188.112:3000/app/update?name=tubelight1&state=1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url2,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains(res2))
+                                {
+                                    bt2.setText("On");
+                                }
+                                else
+                                {
+                                    bt2.setText("Off");
+                                }                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        txt.setText("Server Problem!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue1.add(stringRequest);    }
+        });
+        bt3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(bt3.getText().equals("On"))
+                {
+                    url3 ="http://13.58.188.112:3000/app/update?name=tubelight2&state=0";
+                }
+                else
+                {
+                    url3 ="http://13.58.188.112:3000/app/update?name=tubelight2&state=1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url3,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains(res3))
+                                {
+                                    bt3.setText("On");
+                                }
+                                else
+                                {
+                                    bt3.setText("Off");
+                                }                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        txt.setText("Server Problem!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue1.add(stringRequest);    }
+        });
+
+        bt4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(bt4.getText().equals("On"))
+                {
+                    url4 ="http://13.58.188.112:3000/app/update?name=tubelight3&state=0";
+                }
+                else
+                {
+                    url4 ="http://13.58.188.112:3000/app/update?name=tubelight3&state=1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url4,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains(res4))
+                                {
+                                    bt4.setText("On");
+                                }
+                                else
+                                {
+                                    bt4.setText("Off");
+                                }                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        txt.setText("Server Problem!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue1.add(stringRequest);    }
+        });
+
+        bt5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(bt5.getText().equals("On"))
+                {
+                    url5 ="http://13.58.188.112:3000/app/update?name=fan1&state=0";
+                }
+                else
+                {
+                    url5 ="http://13.58.188.112:3000/app/update?name=fan1&state=1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url5,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains(res5))
+                                {
+                                    bt5.setText("On");
+                                }
+                                else
+                                {
+                                    bt5.setText("Off");
+                                }                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        txt.setText("Server Problem!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue1.add(stringRequest);    }
+        });
+
+        bt6.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(bt6.getText().equals("On"))
+                {
+                    url6 ="http://13.58.188.112:3000/app/update?name=fan2&state=0";
+                }
+                else
+                {
+                    url6 ="http://13.58.188.112:3000/app/update?name=fan2&state=1";
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url6,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if(response.contains(res6))
+                                {
+                                    bt6.setText("On");
+                                }
+                                else
+                                {
+                                    bt6.setText("Off");
+                                }                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        txt.setText("Server Problem!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue1.add(stringRequest);    }
+        });
+        logOut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+
+package com.example.rahul.ClubAutomation;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.rahul.ClubAutomation.LoginActivity;
+
+public class LoginActivity extends AppCompatActivity {
+    Button logIn;
+    EditText emailLogin;
+    EditText password;
+    TextView tv;
+    Button signIn;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        tv = (TextView) findViewById(R.id.tv);
+        logIn = (Button) findViewById(R.id.logIn);
+        signIn = (Button) findViewById(R.id.signIn);
+        emailLogin = (EditText) findViewById(R.id.emailLogin);
+        password = (EditText) findViewById(R.id.password);
+        final RequestQueue queue = Volley.newRequestQueue(this);
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "http://13.58.188.112:3000/app/login?username=" + emailLogin.getText().toString() + "&password=" + password.getText().toString();
+                if(emailLogin.getText().toString().length()==0 || password.getText().toString().length()==0)
+                {
+                    Toast.makeText(LoginActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                tv.setText(response);
+                                if (response.toString().equals("Permission Granted")) {
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    LoginActivity.this.startActivity(intent);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        tv.setText("Please Enter Correct Username and Password");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue.add(stringRequest);
+            }
+        });
+        signIn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent goToRegisterPage=new Intent(LoginActivity.this,Check.class);
+                LoginActivity.this.startActivity(goToRegisterPage);
+            }
+
+
+
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.example.rahul.ClubAutomation;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.rahul.ClubAutomation.RegisterActivity;
+
+public class RegisterActivity extends AppCompatActivity {
+    Button register;
+    EditText username;
+    EditText email;
+    EditText newpassword;
+    TextView tvr;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        tvr = (TextView) findViewById(R.id.tvr);
+        username=(EditText) findViewById(R.id.username);
+        register = (Button) findViewById(R.id.register);
+        email = (EditText) findViewById(R.id.emailLogin);
+        newpassword = (EditText) findViewById(R.id.newpassword);
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url="http://13.58.188.112:3000/app/new_user?name="+username.getText().toString()+"&username="+email.getText().toString()+"&password="+newpassword.getText().toString();
+                if(username.getText().toString().length()==0 || email.getText().toString().length()==0 || newpassword.getText().toString().length()==0)
+                {
+                    tvr.setText("Please fill all the fields");
+                    return;
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                tvr.setText(response);
+                                if(response.toString().equals("Registerd succesfully"))
+                                {
+                                    Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                                    startActivity(intent);
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        tvr.setText("No Internet Connection!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue.add(stringRequest);
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.example.rahul.ClubAutomation;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.rahul.ClubAutomation.RegisterActivity;
+
+public class RegisterActivity extends AppCompatActivity {
+    Button register;
+    EditText username;
+    EditText email;
+    EditText newpassword;
+    TextView tvr;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        tvr = (TextView) findViewById(R.id.tvr);
+        username=(EditText) findViewById(R.id.username);
+        register = (Button) findViewById(R.id.register);
+        email = (EditText) findViewById(R.id.emailLogin);
+        newpassword = (EditText) findViewById(R.id.newpassword);
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url="http://13.58.188.112:3000/app/new_user?name="+username.getText().toString()+"&username="+email.getText().toString()+"&password="+newpassword.getText().toString();
+                if(username.getText().toString().length()==0 || email.getText().toString().length()==0 || newpassword.getText().toString().length()==0)
+                {
+                    tvr.setText("Please fill all the fields");
+                    return;
+                }
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                tvr.setText(response);
+                                if(response.toString().equals("Registerd succesfully"))
+                                {
+                                    Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+                                    startActivity(intent);
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        tvr.setText("No Internet Connection!");
+                    }
+                });
+// Add the request to the RequestQueue.
+                queue.add(stringRequest);
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.example.rahul.ClubAutomation;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.rahul.ClubAutomation.Check;
+
+public class Check extends AppCompatActivity {
+    EditText unip;
+    Button btv;
+    String s="rsjg";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_check);
+        unip = (EditText) findViewById(R.id.unip);
+        btv = (Button) findViewById(R.id.btv);
+        btv.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(((Boolean)(unip.getText().toString()).equals(s))==true)
+                {
+                    Intent intent=new Intent(Check.this,RegisterActivity.class);
+                    Check.this.startActivity(intent);
+                }
+
+            }
+
+        });
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_check"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#819A34"
+    tools:context="com.example.rahul.ClubAutomation.Check">
+
+    <Button
+        android:text="Verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btv"
+        android:layout_below="@+id/unip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/unip"
+        android:hint="                  Universal Password"
+        android:layout_marginTop="132dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.rahul.ClubAutomation.LoginActivity"
+    android:background="@drawable/andro"
+    >
+    //Link to the image  https://drive.google.com/open?id=0ByjcKG7GwUiGdWxXS1Z5aWxxeE0
+    <Button
+        android:text="Sign Up"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/signIn"
+        android:layout_below="@+id/logIn"
+        android:layout_alignLeft="@+id/logIn"
+        android:layout_alignStart="@+id/logIn" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_below="@+id/emailLogin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="19dp"
+        android:id="@+id/password"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        style="@android:style/Widget.AutoCompleteTextView"
+        android:hint="Password"
+        android:background="#9E9E9E"/>
+
+    <Button
+        android:id="@+id/logIn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Log In" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/signIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:gravity="center"
+        android:id="@+id/tv" />
+
+    <EditText
+        android:id="@+id/emailLogin"
+        style="@android:style/Widget.AutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textEmailAddress"
+        android:background="#9E9E9E"
+        android:layout_marginTop="66dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.rahul.ClubAutomation.MainActivity"
+    android:background="#819A34">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:textSize="20sp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/doorlock"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Appliance 1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:textSize="20sp"
+        android:inputType="textPersonName"
+        android:text="Appliance 4"
+        android:ems="10"
+        android:id="@+id/tubelight3"
+        android:layout_below="@+id/tubelight2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:textSize="20sp"
+        android:inputType="textPersonName"
+        android:text="Appliance 3"
+        android:ems="10"
+        android:id="@+id/tubelight2"
+        android:layout_below="@+id/tubelight1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:textSize="20sp"
+        android:inputType="textPersonName"
+        android:text="Appliance 6"
+        android:ems="10"
+        android:layout_below="@+id/fan1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/fan2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tubelight3"
+        android:id="@+id/bt4"
+        android:layout_below="@+id/bt3"
+        android:layout_alignLeft="@+id/bt1"
+        android:layout_alignStart="@+id/bt1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt3"
+        android:layout_below="@+id/bt2"
+        android:layout_alignLeft="@+id/bt4"
+        android:layout_alignStart="@+id/bt4"
+        android:layout_above="@+id/tubelight3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt2"
+        android:layout_alignTop="@+id/tubelight1"
+        android:layout_alignLeft="@+id/bt3"
+        android:layout_alignStart="@+id/bt3"
+        android:layout_above="@+id/tubelight2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt5"
+        android:layout_alignTop="@+id/fan1"
+        android:layout_above="@+id/fan2"
+        android:layout_alignLeft="@+id/bt4"
+        android:layout_alignStart="@+id/bt4"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt"
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/fan2"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Log Out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/logOut"
+        android:layout_below="@+id/bt7"
+        android:layout_alignRight="@+id/bt6"
+        android:layout_alignEnd="@+id/bt6"
+        android:backgroundTint="#FFFFE0"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt7"
+        android:layout_marginTop="30dp"
+        android:text="Show Current States"
+        android:layout_below="@+id/fan2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="#757575"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:textSize="20sp"
+        android:inputType="textPersonName"
+        android:text="Appliance 2"
+        android:ems="10"
+        android:id="@+id/tubelight1"
+        android:layout_below="@+id/doorlock"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:textSize="20sp"
+        android:inputType="textPersonName"
+        android:text="Appliance 5"
+        android:ems="10"
+        android:id="@+id/fan1"
+        android:layout_below="@+id/tubelight3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt6"
+        android:layout_alignBottom="@+id/fan2"
+        android:layout_alignLeft="@+id/bt5"
+        android:layout_alignStart="@+id/bt5"
+        android:layout_below="@+id/bt5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/bt2"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background = "#819A34"
+    tools:context="com.example.rahul.ClubAutomation.RegisterActivity">
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_below="@+id/username"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/emailLogin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Username"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_below="@+id/emailLogin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/newpassword"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Password"
+        />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newpassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/register"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvr"
+        android:layout_below="@+id/register"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
+
